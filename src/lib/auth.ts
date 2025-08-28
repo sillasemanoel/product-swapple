@@ -19,8 +19,10 @@ export const auth = betterAuth({
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
       console.log('Send verification email to:', user.email)
-      console.log('Click the link to verify your email::', url)
+      console.log('Click the link to verify your email:', url)
     },
+    sendOnSignIn: true,
+    autoSignInAfterVerification: true,
   },
   plugins: [nextCookies()],
 })

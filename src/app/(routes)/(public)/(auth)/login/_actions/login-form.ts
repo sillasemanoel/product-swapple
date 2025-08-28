@@ -38,6 +38,8 @@ export async function loginFormAction(values: z.infer<typeof loginFormSchema>) {
       redirectTo: loginData.form.redirectTo,
     }
   } catch (error) {
+    console.error('\x1b[35m[Error] loginFormAction:\x1b[0m', error)
+
     if (error instanceof APIError) {
       const status = error.status
       const statusCode = error.statusCode

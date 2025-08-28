@@ -17,7 +17,7 @@ export async function logoutAction() {
       redirectTo: appData.logout.redirectTo,
     }
   } catch (error) {
-    console.error('[Error] logoutAction: ', error)
+    console.error('\x1b[35m[Error] logoutAction:\x1b[0m', error)
 
     return {
       success: false,

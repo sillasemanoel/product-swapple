@@ -24,7 +24,7 @@ export async function resetPasswordFormAction(
       redirectTo: resetPasswordData.form.redirectTo,
     }
   } catch (error) {
-    console.error('[Error] resetPasswordFormAction: ', error)
+    console.error('\x1b[35m[Error] resetPasswordFormAction:\x1b[0m', error)
 
     return {
       success: false,

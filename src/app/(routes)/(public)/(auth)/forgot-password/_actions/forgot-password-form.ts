@@ -24,7 +24,7 @@ export async function forgotPasswordFormAction(
       redirectTo: forgotPasswordData.form.redirectTo,
     }
   } catch (error) {
-    console.error('[Error] forgotPasswordFormAction: ', error)
+    console.error('\x1b[31m[Error] forgotPasswordFormAction:\x1b[0m', error)
 
     return {
       success: false,

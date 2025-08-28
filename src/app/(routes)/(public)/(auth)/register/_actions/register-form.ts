@@ -41,6 +41,8 @@ export async function registerFormAction(
       redirectTo: registerData.form.redirectTo,
     }
   } catch (error) {
+    console.error('\x1b[31m[Error] resetPasswordFormAction:\x1b[0m', error)
+
     if (error instanceof APIError) {
       const status = error.status
       const statusCode = error.statusCode
