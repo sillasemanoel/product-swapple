@@ -32,6 +32,7 @@ export async function registerFormAction(
         name,
         email,
         password,
+        callbackURL: registerData.form.callback,
       },
     })
 

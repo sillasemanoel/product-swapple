@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { LoaderCircle } from 'lucide-react'
 
+import { routes } from '@/config'
 import {
   Form,
   FormControl,
@@ -32,12 +33,21 @@ export function ResetPasswordFormComponent() {
   })
 
   async function onSubmit(values: z.infer<typeof resetPasswordFormSchema>) {
-    const { success, message, redirectTo } =
-      await resetPasswordFormAction(values)
+    const token =
+      new URLSearchParams(window.location.search).get('token') ?? undefined
+
+    if (!token) {
+      router.push(routes.forgotPassword)
+    }
+
+    const { success, message, redirectTo } = await resetPasswordFormAction({
+      ...values,
+      token,
+    })
 
     if (success) {
-      if (message) toast.success(message)
-      if (redirectTo) router.push(redirectTo)
+      toast.success(message)
+      router.push(redirectTo as string)
     } else {
       toast.error(message)
     }

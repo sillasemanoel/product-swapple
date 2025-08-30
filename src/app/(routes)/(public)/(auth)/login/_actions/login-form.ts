@@ -29,6 +29,7 @@ export async function loginFormAction(values: z.infer<typeof loginFormSchema>) {
         email,
         password,
         rememberMe: true,
+        callbackURL: loginData.form.callback,
       },
       headers: await headers(),
     })

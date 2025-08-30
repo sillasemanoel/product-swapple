@@ -37,7 +37,7 @@ export function LoginFormComponent() {
     const { success, message, redirectTo } = await loginFormAction(values)
 
     if (success) {
-      if (redirectTo) router.push(redirectTo)
+      router.push(redirectTo as string)
     } else {
       toast.error(message)
     }

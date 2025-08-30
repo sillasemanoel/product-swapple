@@ -35,8 +35,8 @@ export function ForgotPasswordFormComponent() {
       await forgotPasswordFormAction(values)
 
     if (success) {
-      if (message) toast.success(message)
-      if (redirectTo) router.push(redirectTo)
+      toast.success(message)
+      router.push(redirectTo as string)
     } else {
       toast.error(message)
     }

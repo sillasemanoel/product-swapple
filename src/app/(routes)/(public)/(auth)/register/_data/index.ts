@@ -56,6 +56,8 @@ export const registerData = {
         'Não foi possível cadastrar a conta. Tente novamente mais tarde.',
     },
 
+    callback: routes.login,
+
     redirectTo: routes.login,
   },
 

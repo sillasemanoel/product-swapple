@@ -25,6 +25,8 @@ export const forgotPasswordData = {
         'Não foi possível enviar o link de redefinição. Tente novamente mais tarde.',
     },
 
+    callback: routes.resetPassword,
+
     redirectTo: routes.login,
   },
 

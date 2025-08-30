@@ -35,6 +35,8 @@ export const loginData = {
         'Não foi possível entrar na conta. Tente novamente mais tarde.',
     },
 
+    callback: routes.login,
+
     redirectTo: routes.app,
   },
 

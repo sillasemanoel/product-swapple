@@ -2,21 +2,33 @@
 
 import z from 'zod'
 
+import { auth } from '@/lib/auth'
+
 import { resetPasswordData } from '../_data'
 import { resetPasswordFormSchema } from '../_schemas/reset-password-form'
 
 export async function resetPasswordFormAction(
-  values: z.infer<typeof resetPasswordFormSchema>,
+  values: z.infer<typeof resetPasswordFormSchema> & { token?: string },
 ) {
   try {
     const parsed = resetPasswordFormSchema.safeParse(values)
 
-    if (!parsed.success) {
+    if (!parsed.success || !values.token) {
       return {
         success: false,
         message: resetPasswordData.form.messages.genericError,
       }
     }
+
+    const newPassword = parsed.data.newPassword
+    const token = values.token
+
+    await auth.api.resetPassword({
+      body: {
+        newPassword,
+        token,
+      },
+    })
 
     return {
       success: true,

@@ -2,6 +2,9 @@
 
 import z from 'zod'
 
+import { auth } from '@/lib/auth'
+import { normalizeEmail } from '@/utils/formatText'
+
 import { forgotPasswordData } from '../_data'
 import { forgotPasswordFormSchema } from '../_schemas/forgot-password-form'
 
@@ -17,6 +20,15 @@ export async function forgotPasswordFormAction(
         message: forgotPasswordData.form.messages.genericError,
       }
     }
+
+    const email = normalizeEmail(parsed.data.email)
+
+    await auth.api.requestPasswordReset({
+      body: {
+        email,
+        redirectTo: forgotPasswordData.form.callback,
+      },
+    })
 
     return {
       success: true,
