@@ -3,22 +3,21 @@
 import z from 'zod'
 import { APIError } from 'better-auth/api'
 
+import { routes } from '@/config'
 import { auth } from '@/lib/auth'
 import { normalizePersonName, normalizeEmail } from '@/utils/formatText'
 
-import { registerData } from '../_data'
-import { registerFormSchema } from '../_schemas/register-form'
+import { formSchema } from '../_schemas/form'
 
-export async function registerFormAction(
-  values: z.infer<typeof registerFormSchema>,
-) {
+export async function formAction(values: z.infer<typeof formSchema>) {
   try {
-    const parsed = registerFormSchema.safeParse(values)
+    const parsed = formSchema.safeParse(values)
 
     if (!parsed.success) {
       return {
-        success: false,
-        message: registerData.form.messages.genericError,
+        status: 'error',
+        message:
+          'Não foi possível cadastrar a conta. Tente novamente mais tarde.',
       }
     }
 
@@ -32,14 +31,14 @@ export async function registerFormAction(
         name,
         email,
         password,
-        callbackURL: registerData.form.callback,
+        callbackURL: routes.onboarding,
       },
     })
 
     return {
-      success: true,
-      message: registerData.form.messages.success,
-      redirectTo: registerData.form.redirectTo,
+      status: 'success',
+      message:
+        'Conta criada com sucesso. Verifique seu e-mail para entrar em sua conta.',
     }
   } catch (error) {
     console.error('\x1b[31m[Error] resetPasswordFormAction:\x1b[0m', error)
@@ -50,15 +49,17 @@ export async function registerFormAction(
 
       if (status === 'UNPROCESSABLE_ENTITY' || statusCode === 422) {
         return {
-          success: false,
-          message: registerData.form.messages.emailInUse,
+          status: 'warning',
+          message:
+            'Este e-mail já está cadastrado. Tente outro ou entre em sua conta.',
         }
       }
     }
 
     return {
-      success: false,
-      message: registerData.form.messages.genericError,
+      status: 'error',
+      message:
+        'Não foi possível cadastrar a conta. Tente novamente mais tarde.',
     }
   }
 }

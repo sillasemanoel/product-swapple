@@ -1,6 +1,6 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -18,36 +18,34 @@ import {
 import { PasswordInput } from '@/components/ui/password-input'
 import { Button } from '@/components/ui/button'
 
-import { resetPasswordFormAction } from '../_actions/reset-password-form'
-import { resetPasswordData } from '../_data'
-import { resetPasswordFormSchema } from '../_schemas/reset-password-form'
+import { formAction } from '../_actions/form'
+import { formSchema } from '../_schemas/form'
 
-export function ResetPasswordFormComponent() {
-  const router = useRouter()
-  const form = useForm<z.infer<typeof resetPasswordFormSchema>>({
-    resolver: zodResolver(resetPasswordFormSchema),
+export function FormComponent() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       newPassword: '',
       confirmPassword: '',
     },
   })
 
-  async function onSubmit(values: z.infer<typeof resetPasswordFormSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     const token =
       new URLSearchParams(window.location.search).get('token') ?? undefined
 
     if (!token) {
-      router.push(routes.forgotPassword)
+      redirect(routes.forgotPassword)
     }
 
-    const { success, message, redirectTo } = await resetPasswordFormAction({
+    const { status, message } = await formAction({
       ...values,
       token,
     })
 
-    if (success) {
+    if (status === 'success') {
       toast.success(message)
-      router.push(redirectTo as string)
+      redirect(routes.login)
     } else {
       toast.error(message)
     }
@@ -68,7 +66,7 @@ export function ResetPasswordFormComponent() {
             <FormItem>
               <FormControl>
                 <PasswordInput
-                  placeholder={resetPasswordData.form.newPassword.placeholder}
+                  placeholder="Nova Senha"
                   disabled={isSubmitting}
                   {...field}
                 />
@@ -86,9 +84,7 @@ export function ResetPasswordFormComponent() {
             <FormItem>
               <FormControl>
                 <PasswordInput
-                  placeholder={
-                    resetPasswordData.form.confirmPassword.placeholder
-                  }
+                  placeholder="Confirmar senha"
                   disabled={isSubmitting}
                   {...field}
                 />
@@ -105,9 +101,7 @@ export function ResetPasswordFormComponent() {
           className="w-fit cursor-pointer"
         >
           {isSubmitting && <LoaderCircle className="animate-spin" />}
-          {isSubmitting
-            ? resetPasswordData.form.button.loading
-            : resetPasswordData.form.button.submit}
+          {isSubmitting ? 'Carregando' : 'Continuar'}
         </Button>
       </form>
     </Form>

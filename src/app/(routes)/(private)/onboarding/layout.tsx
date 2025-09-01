@@ -1,22 +1,24 @@
+import { redirect } from 'next/navigation'
+
 import { routes } from '@/config'
 
+import { getSessionAction } from '../../_actions/get-session'
 import { LogoComponent } from '../../_components/logo'
 import { CopyrightComponent } from '../../_components/copyright'
-import { NavigationComponent } from './_components/navigation'
 
-interface SiteProps {
+interface AppProps {
   children: React.ReactNode
 }
 
-export default function SiteLayout(props: SiteProps) {
+export default async function OnboardingLayout(props: AppProps) {
+  const session = await getSessionAction()
+
+  if (!session?.user) redirect(routes.onboarding)
+
   return (
     <section className="mx-auto flex h-screen max-w-7xl flex-col">
       <header className="bg-background sticky top-0 z-50 flex items-center gap-1 p-6 md:p-4">
         <LogoComponent href={routes.home} />
-
-        <nav className="flex flex-1 items-center justify-between gap-1">
-          <NavigationComponent />
-        </nav>
       </header>
 
       <main className="flex flex-1 flex-col p-6 md:p-4">{props.children}</main>

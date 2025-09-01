@@ -1,17 +1,25 @@
+import { redirect } from 'next/navigation'
+
+import { routes } from '@/config'
+
+import { getSessionAction } from '../../_actions/get-session'
 import { LogoComponent } from '../../_components/logo'
 import { CopyrightComponent } from '../../_components/copyright'
 import { NavigationComponent } from './_components/navigation'
-import { authData } from './_data'
 
 interface AuthProps {
   children: React.ReactNode
 }
 
-export default function AuthLayout(props: AuthProps) {
+export default async function AuthLayout(props: AuthProps) {
+  const session = await getSessionAction()
+
+  if (session?.user) redirect(routes.app)
+
   return (
     <section className="mx-auto flex h-screen max-w-7xl flex-col">
       <header className="bg-background sticky top-0 z-50 flex items-center gap-1 p-6 md:p-4">
-        <LogoComponent href={authData.logo.href} />
+        <LogoComponent href={routes.home} />
 
         <nav className="flex flex-1 items-center justify-end gap-1">
           <NavigationComponent />

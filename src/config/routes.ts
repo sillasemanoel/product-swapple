@@ -13,6 +13,8 @@ export const routes = {
   terms: '/terms',
   privacy: '/privacy',
 
+  onboarding: '/onboarding',
+
   app: '/app',
   appOrders: '/app/orders',
   appProducts: '/app/products',

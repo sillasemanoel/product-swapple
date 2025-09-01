@@ -1,13 +1,14 @@
 'use client'
 
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { LoaderCircle } from 'lucide-react'
 
+import { routes } from '@/config'
 import {
   Form,
   FormControl,
@@ -19,25 +20,25 @@ import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/ui/password-input'
 import { Button } from '@/components/ui/button'
 
-import { loginFormAction } from '../_actions/login-form'
-import { loginData } from '../_data'
-import { loginFormSchema } from '../_schemas/login-form'
+import { formAction } from '../_actions/form'
+import { formSchema } from '../_schemas/login-form'
 
-export function LoginFormComponent() {
-  const router = useRouter()
-  const form = useForm<z.infer<typeof loginFormSchema>>({
-    resolver: zodResolver(loginFormSchema),
+export function FormComponent() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
       password: '',
     },
   })
 
-  async function onSubmit(values: z.infer<typeof loginFormSchema>) {
-    const { success, message, redirectTo } = await loginFormAction(values)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const { status, message } = await formAction(values)
 
-    if (success) {
-      router.push(redirectTo as string)
+    if (status === 'success') {
+      redirect(routes.app)
+    } else if (status === 'warning') {
+      toast.warning(message)
     } else {
       toast.error(message)
     }
@@ -58,7 +59,7 @@ export function LoginFormComponent() {
             <FormItem>
               <FormControl>
                 <Input
-                  placeholder={loginData.form.email.placeholder}
+                  placeholder="E-mail"
                   disabled={isSubmitting}
                   {...field}
                 />
@@ -76,7 +77,7 @@ export function LoginFormComponent() {
             <FormItem>
               <FormControl>
                 <PasswordInput
-                  placeholder={loginData.form.password.placeholder}
+                  placeholder="Senha"
                   disabled={isSubmitting}
                   {...field}
                 />
@@ -94,16 +95,14 @@ export function LoginFormComponent() {
             className="cursor-pointer"
           >
             {isSubmitting && <LoaderCircle className="animate-spin" />}
-            {isSubmitting
-              ? loginData.form.button.loading
-              : loginData.form.button.submit}
+            {isSubmitting ? 'Carregando' : 'Continuar'}
           </Button>
 
           <Link
-            href={loginData.form.forgotPassword.href}
+            href={routes.forgotPassword}
             className="text-primary text-sm underline-offset-4 hover:underline"
           >
-            {loginData.form.forgotPassword.label}
+            Esqueci a senha
           </Link>
         </div>
       </form>

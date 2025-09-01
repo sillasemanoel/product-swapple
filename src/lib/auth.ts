@@ -4,10 +4,10 @@ import { PrismaClient } from '@prisma/client'
 import { nextCookies } from 'better-auth/next-js'
 
 import { app } from '@/config'
-import { sendAction } from '@/app/actions/resend/send'
-import { VerificationEmail } from '@/components/mail/verification-email'
-import { ResetPassword } from '@/components/mail/reset-password'
-import { PasswordReset } from '@/components/mail/password-reset'
+import { sendEmail } from '@/lib/email'
+import { VerificationMail } from '@/components/mail/verification-email'
+import { ResetPasswordMail } from '@/components/mail/reset-password'
+import { PasswordResetMail } from '@/components/mail/password-reset'
 
 const prisma = new PrismaClient()
 export const auth = betterAuth({
@@ -20,27 +20,28 @@ export const auth = betterAuth({
     autoSignIn: false,
     requireEmailVerification: true,
     sendResetPassword: async ({ user, url }) => {
-      await sendAction({
+      await sendEmail({
         to: user.email,
-        subject: 'Redefina sua senha',
-        react: ResetPassword({ url }),
+        subject: 'Redefinição de senha',
+        react: ResetPasswordMail({ name: user.name, url }),
       })
     },
     onPasswordReset: async ({ user }) => {
-      await sendAction({
+      await sendEmail({
         to: user.email,
-        subject: 'Senha redefinida com sucesso',
-        react: PasswordReset({ name: user.name }),
+        subject: 'A senha foi redefinida',
+        react: PasswordResetMail({ name: user.name }),
       })
     },
   },
   emailVerification: {
     sendOnSignIn: true,
+    autoSignInAfterVerification: true,
     sendVerificationEmail: async ({ user, url }) => {
-      await sendAction({
+      await sendEmail({
         to: user.email,
-        subject: 'Verifique seu endereço de e-mail',
-        react: VerificationEmail({ url }),
+        subject: 'Verificação de conta',
+        react: VerificationMail({ name: user.name, url }),
       })
     },
   },

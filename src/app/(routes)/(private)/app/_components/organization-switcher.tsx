@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ChevronsUpDown } from 'lucide-react'
+import { ChevronsUpDown, Plus } from 'lucide-react'
 
 import {
   SidebarMenu,
@@ -20,8 +20,6 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { getInitials } from '@/utils/formatText'
-
-import { appData } from '../_data'
 
 const organizations = [
   {
@@ -74,7 +72,7 @@ export function OrganizationSwitcherComponent() {
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56"
           >
             <DropdownMenuLabel className="text-muted-foreground text-xs">
-              {appData.organizationSwitcher.title} ({organizations.length})
+              Organizações ({organizations.length})
             </DropdownMenuLabel>
 
             <DropdownMenuGroup>
@@ -104,11 +102,11 @@ export function OrganizationSwitcherComponent() {
             <DropdownMenuGroup>
               <DropdownMenuItem className="cursor-pointer">
                 <div className="flex size-7 items-center justify-center rounded-md border bg-transparent">
-                  <appData.organizationSwitcher.button.icon />
+                  <Plus />
                 </div>
 
                 <p className="text-muted-foreground font-medium">
-                  {appData.organizationSwitcher.button.label}
+                  Criar organização
                 </p>
               </DropdownMenuItem>
             </DropdownMenuGroup>

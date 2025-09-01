@@ -1,22 +1,23 @@
+import { routes } from '@/config'
+
 import { WelcomeComponent } from '../_components/welcome'
 import { AuthAlternativeComponent } from '../_components/auth-alternative'
-import { RegisterFormComponent } from './_components/register-form'
-import { registerData } from './_data'
+import { FormComponent } from './_components/form'
 
 export default function RegisterPage() {
   return (
     <div className="m-auto flex w-full max-w-96 flex-col gap-6">
       <WelcomeComponent
-        title={registerData.welcome.title}
-        description={registerData.welcome.description}
+        title="Cadastre-se"
+        description="Crie uma nova conta preenchendo o formulário abaixo"
       />
 
-      <RegisterFormComponent />
+      <FormComponent />
 
       <AuthAlternativeComponent
-        prefix={registerData.authAlternative.prefix}
-        linkLabel={registerData.authAlternative.linkLabel}
-        linkHref={registerData.authAlternative.linkHref}
+        prefix="Já tem uma conta?"
+        linkLabel="Entrar"
+        linkHref={routes.login}
       />
     </div>
   )

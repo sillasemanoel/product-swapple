@@ -32,12 +32,12 @@ export default function RootLayout(props: RootProps) {
       <body className={`${inter.variable} ${poppins.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
           {props.children}
-          <Toaster richColors />
+          <Toaster position="top-center" richColors />
         </ThemeProvider>
       </body>
     </html>

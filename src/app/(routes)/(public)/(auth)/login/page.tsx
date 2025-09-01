@@ -1,22 +1,23 @@
+import { routes } from '@/config'
+
 import { WelcomeComponent } from '../_components/welcome'
 import { AuthAlternativeComponent } from '../_components/auth-alternative'
-import { LoginFormComponent } from './_components/login-form'
-import { loginData } from './_data'
+import { FormComponent } from './_components/form'
 
 export default function LoginPage() {
   return (
     <div className="m-auto flex w-full max-w-96 flex-col gap-6">
       <WelcomeComponent
-        title={loginData.welcome.title}
-        description={loginData.welcome.description}
+        title="Entrar"
+        description="Digite seu e-mail e senha para acessar sua conta"
       />
 
-      <LoginFormComponent />
+      <FormComponent />
 
       <AuthAlternativeComponent
-        prefix={loginData.authAlternative.prefix}
-        linkLabel={loginData.authAlternative.linkLabel}
-        linkHref={loginData.authAlternative.linkHref}
+        prefix="Não tem uma conta?"
+        linkLabel="Cadastre-se"
+        linkHref={routes.register}
       />
     </div>
   )

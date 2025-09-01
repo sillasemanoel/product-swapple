@@ -1,22 +1,20 @@
 'use client'
 
 import Link from 'next/link'
+import { LifeBuoy } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-
-import { authData } from '../_data'
+import { routes } from '@/config'
 
 export function NavigationComponent() {
   return (
     <>
-      {authData.navigation.map((item) => (
-        <Button key={item.href} variant={item.variant} asChild>
-          <Link href={item.href}>
-            <item.icon />
-            {item.label}
-          </Link>
-        </Button>
-      ))}
+      <Button variant="outline" asChild>
+        <Link href={routes.help}>
+          <LifeBuoy />
+          Obtenha Ajuda
+        </Link>
+      </Button>
     </>
   )
 }

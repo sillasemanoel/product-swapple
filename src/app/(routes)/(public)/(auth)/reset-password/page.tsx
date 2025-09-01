@@ -1,22 +1,23 @@
+import { routes } from '@/config'
+
 import { WelcomeComponent } from '../_components/welcome'
 import { AuthAlternativeComponent } from '../_components/auth-alternative'
-import { ResetPasswordFormComponent } from './_components/reset-password-form'
-import { resetPasswordData } from './_data'
+import { FormComponent } from './_components/form'
 
 export default function ResetPassword() {
   return (
     <div className="m-auto flex w-full max-w-96 flex-col gap-6">
       <WelcomeComponent
-        title={resetPasswordData.welcome.title}
-        description={resetPasswordData.welcome.description}
+        title="Redefinir senha"
+        description="Digite sua nova senha para redefini-la"
       />
 
-      <ResetPasswordFormComponent />
+      <FormComponent />
 
       <AuthAlternativeComponent
-        prefix={resetPasswordData.authAlternative.prefix}
-        linkLabel={resetPasswordData.authAlternative.linkLabel}
-        linkHref={resetPasswordData.authAlternative.linkHref}
+        prefix="Lembrou da senha?"
+        linkLabel="Entrar"
+        linkHref={routes.login}
       />
     </div>
   )

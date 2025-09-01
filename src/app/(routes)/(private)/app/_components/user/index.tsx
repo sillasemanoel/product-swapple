@@ -1,8 +1,18 @@
 'use client'
 
 import Link from 'next/link'
-import { ChevronsUpDown, ArrowUpRight } from 'lucide-react'
+import {
+  ChevronsUpDown,
+  ArrowUpRight,
+  Sparkles,
+  BadgeCheck,
+  CreditCard,
+  Bell,
+  TentTree,
+  Rss,
+} from 'lucide-react'
 
+import { routes } from '@/config'
 import {
   SidebarMenu,
   SidebarMenuButton,
@@ -21,17 +31,20 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { getInitials } from '@/utils/formatText'
 
-import { appData } from '../../_data'
 import { LogoutComponent } from './_components/logout'
 
-const user = {
-  name: 'Sillas Emanoel',
-  email: 'sillasemanoel.work@gmail.com',
-  avatar: 'https://github.com/sillasemanoel.png',
+interface UserProps {
+  user: {
+    name: string
+    email: string
+    avatar?: string
+  }
 }
 
-export function UserComponent() {
+export function UserComponent({ user }: UserProps) {
   const { isMobile } = useSidebar()
+
+  if (!user) return null
 
   return (
     <SidebarMenu>
@@ -82,42 +95,54 @@ export function UserComponent() {
 
             <DropdownMenuGroup>
               <DropdownMenuItem className="cursor-pointer">
-                <appData.user.upgrade.icon />
-                {appData.user.upgrade.label}
+                <Sparkles />
+                Atualizar para Pro
               </DropdownMenuItem>
             </DropdownMenuGroup>
 
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>
-              {appData.user.account.map((item) => (
-                <Link href={item.href} key={item.href}>
-                  <DropdownMenuItem className="cursor-pointer">
-                    <item.icon />
-                    {item.label}
-                  </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer" asChild>
+                <Link href={routes.appSettings}>
+                  <BadgeCheck />
+                  Conta
                 </Link>
-              ))}
+              </DropdownMenuItem>
+
+              <DropdownMenuItem className="cursor-pointer" asChild>
+                <Link href={routes.appSettingsBilling}>
+                  <CreditCard />
+                  Cobrança
+                </Link>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem className="cursor-pointer" asChild>
+                <Link href={routes.appSettingsNotifications}>
+                  <Bell />
+                  Notificações
+                </Link>
+              </DropdownMenuItem>
             </DropdownMenuGroup>
 
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>
-              {appData.user.resources.map((item) => (
-                <Link
-                  href={item.href}
-                  key={item.href}
-                  target={item.external ? '_blank' : undefined}
-                >
-                  <DropdownMenuItem className="cursor-pointer">
-                    <item.icon />
-                    {item.label}
-                    {item.external ? (
-                      <ArrowUpRight className="ml-auto" />
-                    ) : null}
-                  </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer" asChild>
+                <Link href={routes.home} target="_blank">
+                  <TentTree />
+                  Site
+                  <ArrowUpRight className="ml-auto" />
                 </Link>
-              ))}
+              </DropdownMenuItem>
+
+              <DropdownMenuItem className="cursor-pointer" asChild>
+                <Link href={routes.blog} target="_blank">
+                  <Rss />
+                  Blog
+                  <ArrowUpRight className="ml-auto" />
+                </Link>
+              </DropdownMenuItem>
             </DropdownMenuGroup>
 
             <DropdownMenuSeparator />

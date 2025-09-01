@@ -1,22 +1,23 @@
+import { routes } from '@/config'
+
 import { WelcomeComponent } from '../_components/welcome'
 import { AuthAlternativeComponent } from '../_components/auth-alternative'
-import { ForgotPasswordFormComponent } from './_components/forgot-password-form'
-import { forgotPasswordData } from './_data'
+import { FormComponent } from './_components/form'
 
 export default function ForgotPasswordPage() {
   return (
     <div className="m-auto flex w-full max-w-96 flex-col gap-6">
       <WelcomeComponent
-        title={forgotPasswordData.welcome.title}
-        description={forgotPasswordData.welcome.description}
+        title="Esqueci a senha"
+        description="Digite seu e-mail para enviar um link de redefinição de senha"
       />
 
-      <ForgotPasswordFormComponent />
+      <FormComponent />
 
       <AuthAlternativeComponent
-        prefix={forgotPasswordData.authAlternative.prefix}
-        linkLabel={forgotPasswordData.authAlternative.linkLabel}
-        linkHref={forgotPasswordData.authAlternative.linkHref}
+        prefix="Lembrou da senha?"
+        linkLabel="Entrar"
+        linkHref={routes.login}
       />
     </div>
   )

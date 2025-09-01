@@ -1,21 +1,20 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { toast } from 'sonner'
+import { LogOut } from 'lucide-react'
 
+import { routes } from '@/config'
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 
-import { appData } from '../../../_data'
 import { logoutAction } from '../_actions/logout'
 
 export function LogoutComponent() {
-  const router = useRouter()
-
   async function handleLogout() {
-    const { success, message, redirectTo } = await logoutAction()
+    const { success, message } = await logoutAction()
 
     if (success) {
-      if (redirectTo) router.push(redirectTo)
+      redirect(routes.login)
     } else {
       toast.error(message)
     }
@@ -26,8 +25,8 @@ export function LogoutComponent() {
       className="cursor-pointer"
       onClick={handleLogout}
     >
-      <appData.logout.button.icon />
-      {appData.logout.button.label}
+      <LogOut />
+      Sair
     </DropdownMenuItem>
   )
 }

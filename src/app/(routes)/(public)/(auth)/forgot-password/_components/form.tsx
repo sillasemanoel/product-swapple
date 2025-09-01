@@ -1,12 +1,13 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { LoaderCircle } from 'lucide-react'
 
+import { routes } from '@/config'
 import {
   Form,
   FormControl,
@@ -17,26 +18,23 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 
-import { forgotPasswordFormAction } from '../_actions/forgot-password-form'
-import { forgotPasswordData } from '../_data'
-import { forgotPasswordFormSchema } from '../_schemas/forgot-password-form'
+import { formAction } from '../_actions/form'
+import { formSchema } from '../_schemas/form'
 
-export function ForgotPasswordFormComponent() {
-  const router = useRouter()
-  const form = useForm<z.infer<typeof forgotPasswordFormSchema>>({
-    resolver: zodResolver(forgotPasswordFormSchema),
+export function FormComponent() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
     },
   })
 
-  async function onSubmit(values: z.infer<typeof forgotPasswordFormSchema>) {
-    const { success, message, redirectTo } =
-      await forgotPasswordFormAction(values)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const { status, message } = await formAction(values)
 
-    if (success) {
+    if (status === 'success') {
       toast.success(message)
-      router.push(redirectTo as string)
+      redirect(routes.login)
     } else {
       toast.error(message)
     }
@@ -57,7 +55,7 @@ export function ForgotPasswordFormComponent() {
             <FormItem>
               <FormControl>
                 <Input
-                  placeholder={forgotPasswordData.form.email.placeholder}
+                  placeholder="E-mail"
                   disabled={isSubmitting}
                   {...field}
                 />
@@ -74,9 +72,7 @@ export function ForgotPasswordFormComponent() {
           className="w-fit cursor-pointer"
         >
           {isSubmitting && <LoaderCircle className="animate-spin" />}
-          {isSubmitting
-            ? forgotPasswordData.form.button.loading
-            : forgotPasswordData.form.button.submit}
+          {isSubmitting ? 'Carregando' : 'Continuar'}
         </Button>
       </form>
     </Form>

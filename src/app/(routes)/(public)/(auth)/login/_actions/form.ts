@@ -4,20 +4,21 @@ import { headers } from 'next/headers'
 import { APIError } from 'better-auth/api'
 import z from 'zod'
 
+import { routes } from '@/config'
 import { auth } from '@/lib/auth'
 import { normalizeEmail } from '@/utils/formatText'
 
-import { loginData } from '../_data'
-import { loginFormSchema } from '../_schemas/login-form'
+import { formSchema } from '../_schemas/login-form'
 
-export async function loginFormAction(values: z.infer<typeof loginFormSchema>) {
+export async function formAction(values: z.infer<typeof formSchema>) {
   try {
-    const parsed = loginFormSchema.safeParse(values)
+    const parsed = formSchema.safeParse(values)
 
     if (!parsed.success) {
       return {
-        success: false,
-        message: loginData.form.messages.genericError,
+        status: 'error',
+        message:
+          'Não foi possível entrar na conta. Tente novamente mais tarde.',
       }
     }
 
@@ -29,17 +30,16 @@ export async function loginFormAction(values: z.infer<typeof loginFormSchema>) {
         email,
         password,
         rememberMe: true,
-        callbackURL: loginData.form.callback,
+        callbackURL: routes.onboarding,
       },
       headers: await headers(),
     })
 
     return {
-      success: true,
-      redirectTo: loginData.form.redirectTo,
+      status: 'success',
     }
   } catch (error) {
-    console.error('\x1b[35m[Error] loginFormAction:\x1b[0m', error)
+    console.error('\x1b[35m[Error] formAction:\x1b[0m', error)
 
     if (error instanceof APIError) {
       const status = error.status
@@ -47,22 +47,23 @@ export async function loginFormAction(values: z.infer<typeof loginFormSchema>) {
 
       if (status === 'UNAUTHORIZED' || statusCode === 401) {
         return {
-          success: false,
-          message: loginData.form.messages.invalidCredentials,
+          status: 'warning',
+          message: 'E-mail ou senha incorretos. Tente novamente.',
         }
       }
 
       if (status === 'FORBIDDEN' || statusCode === 403) {
         return {
-          success: false,
-          message: loginData.form.messages.accountNotActivated,
+          status: 'warning',
+          message:
+            'Sua conta ainda não foi verificada. Verifique seu e-mail para entrar em sua conta.',
         }
       }
     }
 
     return {
-      success: false,
-      message: loginData.form.messages.genericError,
+      status: 'error',
+      message: 'Não foi possível entrar na conta. Tente novamente mais tarde.',
     }
   }
 }
