@@ -13,7 +13,7 @@ interface AppProps {
 export default async function OnboardingLayout(props: AppProps) {
   const session = await getSessionAction()
 
-  if (!session?.user) redirect(routes.onboarding)
+  if (!session?.user) redirect(routes.login)
 
   return (
     <section className="mx-auto flex h-screen max-w-7xl flex-col">
