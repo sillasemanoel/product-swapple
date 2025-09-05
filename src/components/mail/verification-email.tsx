@@ -11,7 +11,7 @@ import {
   Text,
 } from '@react-email/components'
 
-import { app, routes } from '@/config'
+import { APP, ROUTES } from '@/config'
 
 interface VerificationProps {
   name: string
@@ -20,18 +20,18 @@ interface VerificationProps {
 
 const baseUrl = process.env.VERCEL_URL
 
-export function VerificationMail({ name, url }: VerificationProps) {
+export function VerificationMail(props: VerificationProps) {
   return (
     <Html>
       <Head />
       <Body style={main}>
-        <Preview>Verifique sua conta na {app.name}</Preview>
+        <Preview>Verifique sua conta na {APP.name}</Preview>
 
         <Container style={container}>
-          <Img src={baseUrl + app.logo} width="32" height="32" alt={app.name} />
+          <Img src={baseUrl + APP.logo} width="32" height="32" alt={APP.name} />
 
           <Text style={title}>
-            Olá, <strong>{name}</strong>!
+            Olá, <strong>{props.name}</strong>!
           </Text>
 
           <Section style={section}>
@@ -43,19 +43,19 @@ export function VerificationMail({ name, url }: VerificationProps) {
               Se você não criou esta conta, ignore este e-mail.
             </Text>
 
-            <Button style={button} href={url}>
+            <Button style={button} href={props.url}>
               Verificar Conta
             </Button>
           </Section>
 
           <Text style={links}>
-            <Link style={link} href={baseUrl + routes.help}>
+            <Link style={link} href={baseUrl + ROUTES.help}>
               Entre em contato com o suporte
             </Link>
           </Text>
 
           <Text style={footer}>
-            &copy; {new Date().getFullYear()} {app.name}
+            &copy; {new Date().getFullYear()} {APP.name}
           </Text>
         </Container>
       </Body>
@@ -69,7 +69,7 @@ const main = {
   backgroundColor: '#fff',
   color: '#0c0a09',
   fontFamily:
-    '-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji"',
+    '-APPle-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"APPle Color Emoji","Segoe UI Emoji"',
 }
 
 const container = {

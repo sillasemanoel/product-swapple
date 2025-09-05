@@ -1,4 +1,4 @@
-export const app = {
+export const APP = {
   name: 'Swapple',
   description: 'Saas Boilerplate',
   logo: '/assets/logo.avif',

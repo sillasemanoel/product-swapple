@@ -11,7 +11,7 @@ import {
   Text,
 } from '@react-email/components'
 
-import { app, routes } from '@/config'
+import { APP, ROUTES } from '@/config'
 
 interface ResetPasswordProps {
   name: string
@@ -20,18 +20,18 @@ interface ResetPasswordProps {
 
 const baseUrl = process.env.VERCEL_URL
 
-export function ResetPasswordMail({ name, url }: ResetPasswordProps) {
+export function ResetPasswordMail(props: ResetPasswordProps) {
   return (
     <Html>
       <Head />
       <Body style={main}>
-        <Preview>Redefina sua senha na {app.name}</Preview>
+        <Preview>Redefina sua senha na {APP.name}</Preview>
 
         <Container style={container}>
-          <Img src={baseUrl + app.logo} width="32" height="32" alt={app.name} />
+          <Img src={baseUrl + APP.logo} width="32" height="32" alt={APP.name} />
 
           <Text style={title}>
-            Olá, <strong>{name}</strong>!
+            Olá, <strong>{props.name}</strong>!
           </Text>
 
           <Section style={section}>
@@ -43,19 +43,19 @@ export function ResetPasswordMail({ name, url }: ResetPasswordProps) {
               Se você não solicitou a redefinição, pode ignorar este e-mail.
             </Text>
 
-            <Button style={button} href={url}>
+            <Button style={button} href={props.url}>
               Redefinir Senha
             </Button>
           </Section>
 
           <Text style={links}>
-            <Link style={link} href={baseUrl + routes.help}>
+            <Link style={link} href={baseUrl + ROUTES.help}>
               Entre em contato com o suporte
             </Link>
           </Text>
 
           <Text style={footer}>
-            &copy; {new Date().getFullYear()} {app.name}
+            &copy; {new Date().getFullYear()} {APP.name}
           </Text>
         </Container>
       </Body>
@@ -69,7 +69,7 @@ const main = {
   backgroundColor: '#fff',
   color: '#0c0a09',
   fontFamily:
-    '-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji"',
+    '-APPle-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"APPle Color Emoji","Segoe UI Emoji"',
 }
 
 const container = {

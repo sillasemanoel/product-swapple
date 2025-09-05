@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Inter, Poppins } from 'next/font/google'
 import './globals.css'
 
-import { app } from '@/config'
+import { APP } from '@/config'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
 
@@ -18,8 +18,8 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: app.name,
-  description: app.description,
+  title: APP.name,
+  description: APP.description,
 }
 
 interface RootProps {
@@ -32,7 +32,7 @@ export default function RootLayout(props: RootProps) {
       <body className={`${inter.variable} ${poppins.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >

@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 
-import { app } from '@/config'
+import { APP } from '@/config'
 import { Button } from '@/components/ui/button'
 
 interface LogoProps {
@@ -15,12 +15,12 @@ export function LogoComponent(props: LogoProps) {
     <Button variant="ghost" size="icon" asChild>
       <Link href={props.href}>
         <Image
-          src={app.logo}
-          alt={app.name}
+          src={APP.logo}
+          alt={APP.name}
           width={333}
           height={333}
+          className="size-6"
           priority
-          className="h-6 w-6"
         />
       </Link>
     </Button>
